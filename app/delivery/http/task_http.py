@@ -5,12 +5,10 @@ from domain.entity.task_entity import TaskEntity
 from fastapi.exceptions import HTTPException
 from fastapi import APIRouter, Depends
 from interface.database.db import AsyncSession, get_session
-
 from delivery.http.dto.task_dto import CreateTaskDto,UpdateTaskDto
 from usecases.task_usceases import TaskUsecase
 from utils.response.success_response import SuccessResponse
 from typing import List
-
 
 # router
 router =  APIRouter(
@@ -25,7 +23,7 @@ async def create_task(schema: CreateTaskDto, session: AsyncSession = Depends(get
     result = await taskUsecase.create(schema)
     return SuccessResponse(data=result)
 
-@router.get('/task/list/on_going',
+@router.get('/list/on_going',
     response_model=SuccessResponse[List[TaskEntity]]
 )
 async def get_task_on_going(session: AsyncSession = Depends(get_session)):
@@ -34,7 +32,7 @@ async def get_task_on_going(session: AsyncSession = Depends(get_session)):
     result = await taskUsecase.getOngoingTasks()
     return SuccessResponse(data=result)
 
-@router.get("/task/list/completed", response_model=SuccessResponse[List[TaskEntity]])
+@router.get("/list/completed", response_model=SuccessResponse[List[TaskEntity]])
 async def get_list_completed(session: AsyncSession = Depends(get_session)):
     repo = TaskRepositoryImpl(session)
     taskUsecase = TaskUsecase(repo, session=session)

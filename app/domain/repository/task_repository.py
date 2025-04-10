@@ -3,7 +3,6 @@ from domain.entity.task_entity import TaskEntity
 from typing import List, Optional
 
 class TaskRepository(ABC):
-
     @abstractmethod
     async def create(task:TaskEntity) -> TaskEntity:
         pass
@@ -28,4 +27,7 @@ class TaskRepository(ABC):
     async def getByStatus(status_id: int, order_by:str) -> List[TaskEntity]:
         pass
 
+    @abstractmethod
+    async def getByapa():
+        pass
     

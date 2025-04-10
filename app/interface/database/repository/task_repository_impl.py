@@ -11,11 +11,9 @@ from interface.database.models.task import Task
 from datetime import datetime
 from domain.entity import task_entity
 
-
 class TaskRepositoryImpl(TaskRepository):
     def __init__(self, session: AsyncSession):
         self.session = session
-
     async def find(self, id: str)->Optional[TaskEntity]:
         result = await self.session.get(Task, int(id))
         if result is None: 
@@ -75,7 +73,7 @@ class TaskRepositoryImpl(TaskRepository):
         )
 
     async def update(self, id, task:TaskEntity):
-        model =  select(Task).where(Task.id == int(id))
+        model =  select(Task).where(Task.id == int(id)).options(selectinload(Task.task_status))
         result =  await self.session.exec(model)
         modelUpdate = result.one()
         modelUpdate.name = task.name
@@ -107,3 +105,6 @@ class TaskRepositoryImpl(TaskRepository):
         await self.session.refresh(modelUpdate)
 
         return modelUpdate
+
+    async def getByapa():
+        pass
